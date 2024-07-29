@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Examen 3 Parcial WEB</title>
+    <link rel="icon" href="1.png" type="image/x-icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+            color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-bottom: 20px;
+            background-color: #333;
+            color: #f8f9fa;
+        }
+        .card-header {
+            font-weight: bold;
+            background-color: #444;
+        }
+        .result-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result-list li {
+            padding: 5px 0;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary, .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .list-group-item {
+            background-color: #444;
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Ejercicio 1 -->
+        <div class="card">
+            <div class="card-header">
+                Ejercicio 1: Filtro de Arreglos
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="mostrarResultado1()">Filtrar Mayores de Edad</button>
+                    <button class="btn btn-danger" onclick="clearResultado1()">Clear</button>
+                </div>
+                <ul id="resultado1" class="result-list"></ul>
+                <script>
+                    function filtrarMayoresDeEdad(personas) {
+                        return personas.filter(persona => persona.edad >= 18);
+                    }
+    
+                    const personasEj1 = [
+                        { nombre: 'Eduardo', edad: 25 },
+                        { nombre: 'Yussif', edad: 29 },
+                        { nombre: 'Jesus', edad: 17 },
+                        { nombre: 'Kairos', edad: 30 }
+                    ];
+    
+                    function mostrarResultado1() {
+                        const resultado = filtrarMayoresDeEdad(personasEj1);
+                        const resultadoList = document.getElementById('resultado1');
+                        resultadoList.innerHTML = '';
+                        resultado.forEach(persona => {
+                            let li = document.createElement('li');
+                            li.textContent = `${persona.nombre}, ${persona.edad} años`;
+                            resultadoList.appendChild(li);
+                        });
+                    }
+
+                    function clearResultado1() {
+                        document.getElementById('resultado1').innerHTML = '';
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Ejercicio 2 -->
+        <div class="card">
+            <div class="card-header">
+                Ejercicio 2: Transformar y Filtrar Arreglos
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="mostrarResultado2()">Transformar y Filtrar</button>
+                    <button class="btn btn-danger" onclick="clearResultado2()">Clear</button>
+                </div>
+                <ul id="resultado2" class="result-list"></ul>
+                <script>
+                    function transformarYFiltrar(numeros) {
+                        return numeros.map(num => num * num).filter(cuadrado => cuadrado > 20);
+                    }
+
+                    const numerosEj2 = [2, 3, 4, 8, 9, 12];
+                    
+                    function mostrarResultado2() {
+                        const resultado = transformarYFiltrar(numerosEj2);
+                        const resultadoList = document.getElementById('resultado2');
+                        resultadoList.innerHTML = '';
+                        resultado.forEach(cuadrado => {
+                            let li = document.createElement('li');
+                            li.textContent = `Cuadrado: ${cuadrado}`;
+                            resultadoList.appendChild(li);
+                        });
+                    }
+
+                    function clearResultado2() {
+                        document.getElementById('resultado2').innerHTML = '';
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Ejercicio 3 -->
+        <div class="card">
+            <div class="card-header">
+                Ejercicio 3: Promesas y Asincronía
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="ejercicio3()">Obtener Usuarios</button>
+                    <button class="btn btn-danger" onclick="clearResultado3()">Clear</button>
+                </div>
+                <ul id="resultado3" class="result-list"></ul>
+                <script>
+                    async function ejercicio3() {
+                        try {
+                            let response = await fetch('https://jsonplaceholder.typicode.com/users');
+                            if (!response.ok) {
+                                throw new Error('Error en la llamada a la API');
+                            }
+                            let data = await response.json();
+                            const resultadoList = document.getElementById('resultado3');
+                            resultadoList.innerHTML = '';
+                            data.forEach(usuario => {
+                                let li = document.createElement('li');
+                                li.textContent = `${usuario.name} - ${usuario.email}`;
+                                resultadoList.appendChild(li);
+                            });
+                        } catch (error) {
+                            console.error('Hubo un problema con la solicitud:', error);
+                        }
+                    }
+
+                    function clearResultado3() {
+                        document.getElementById('resultado3').innerHTML = '';
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Ejercicio 4 -->
+        <div class="card">
+            <div class="card-header">
+                Ejercicio 4: Manipulación Compleja del DOM
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button id="agregarItem" class="btn btn-success">Agregar ítem</button>
+                    <button class="btn btn-danger" onclick="clearLista()">Clear</button>
+                </div>
+                <ul id="lista" class="list-group mt-3"></ul>
+                <script>
+                    document.getElementById("agregarItem").addEventListener("click", function() {
+                        let li = document.createElement("li");
+                        li.className = "list-group-item d-flex justify-content-between align-items-center";
+                        li.textContent = "Nuevo ítem";
+                        
+                        let botonEliminar = document.createElement("button");
+                        botonEliminar.className = "btn btn-danger btn-sm";
+                        botonEliminar.textContent = "Eliminar";
+                        botonEliminar.addEventListener("click", function() {
+                            li.remove();
+                        });
+                        
+                        li.appendChild(botonEliminar);
+                        document.getElementById("lista").appendChild(li);
+                    });
+
+                    function clearLista() {
+                        document.getElementById("lista").innerHTML = '';
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Ejercicio 5 -->
+        <div class="card">
+            <div class="card-header">
+                Ejercicio 5: Algoritmos y Estructuras de Datos
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="mostrarResultado5()">Ordenar por Propiedad</button>
+                    <button class="btn btn-danger" onclick="clearResultado5()">Clear</button>
+                </div>
+                <ul id="resultado5" class="result-list"></ul>
+                <script>
+                    function ordenarPorPropiedad(arr, prop) {
+                        return arr.sort((a, b) => {
+                            if (a[prop] > b[prop]) {
+                                return 1;
+                            } else if (a[prop] < b[prop]) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
+                        });
+                    }
+
+                    const personasEj5 = [
+                        { nombre: 'Ellork', edad: 19 },
+                        { nombre: 'Yussgp', edad: 20 },
+                        { nombre: 'Appa1', edad: 25 },
+                        { nombre: 'Momichiszz', edad: 18 },
+                        { nombre: 'Kevinskills', edad: 20 },
+                        { nombre: 'Grimmfuzz', edad: 19 },
+                        { nombre: 'Jesusz', edad: 19 },
+                    ];
+
+                    function mostrarResultado5() {
+                        const resultado = ordenarPorPropiedad(personasEj5, 'edad');
+                        const resultadoList = document.getElementById('resultado5');
+                        resultadoList.innerHTML = '';
+                        resultado.forEach(persona => {
+                            let li = document.createElement('li');
+                            li.textContent = `${persona.nombre}, ${persona.edad} años`;
+                            resultadoList.appendChild(li);
+                        });
+                    }
+
+                    function clearResultado5() {
+                        document.getElementById('resultado5').innerHTML = '';
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
